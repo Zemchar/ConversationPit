@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+      integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+      crossorigin="anonymous"
+    />
+    <link id="style" rel="stylesheet" href="css/main.css" />
+    <title>Conversation Pit</title>
+  </head>
+  <body onload="loadTheme()">
+    <header class="chat-header" style="height: 5vh">
+      <h1 id="room-name"></h1>      
+      <div id="leave-btn" stule="height:5vh" class="btn">Leave</div>
+    </header>
+    <main class="chat-main" style="height: 90vh;"">
+      <div id="chatMain" class="chat-messages" style="width: 80vw;"></div>
+      <div class="chat-sidebar">
+        <br>
+        <div style="text-align: center" id="gizmos">
+          <span class="emphasize"><b>Gizmos</b></span>
+          <hr>
+          <div id="beepbeep" class="btn">The Watch</div>
+          <div id="nolog" class="btn">No Logs</div>
+          <div id="themeswitch" class="btn" onclick="switchtheme()">Switch Themes</div>
+        </div>
+        <br>
+        <div style="text-align:center">
+          <script>setInterval(function() {document.getElementById("userticker").innerText = `Connected Users (${document.querySelectorAll("#users li").length})`}, 1000)</script>
+          <span id="userticker">Connecting...</span>
+          <ul style="max-height: 30vh;" id="users" ></ul>
+        </div>
+        <br>
+        <hr>
+        <br>
+        <div style="text-align:center">
+          <span> System Messages</span>
+          <ul style="max-height: 40vh;text-align: left;" id="system-alerts"></ul>
+        </div>
+      </div>
+    </main>
+    <div class="chat-form-container" style="height: 5vh;">
+      <form id="chat-form">
+        <input
+          id="msg"
+          type="text"
+          placeholder="Enter Message"
+          required
+          autocomplete="off"
+        />
+        <button class="btn"><i class="fas fa-arrow-circle-up"></i> Send</button>
+      </form>
+    </div>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/qs/6.9.2/qs.min.js"
+      integrity="sha256-TDxXjkAUay70ae/QJBEpGKkpVslXaHHayklIVglFRT4="
+      crossorigin="anonymous"
+    ></script>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/jquery-3.6.0.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta http-equiv="X-UA-Compatible" content="ie=edge" />
+		<link
+			rel="stylesheet"
+			href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css"
+			integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk="
+			crossorigin="anonymous"
+		/>
+		<link id="style" rel="stylesheet" href="css/main.css" />
+		<title>Conversation Pit</title>
+	</head>
+	<script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script src="js/main.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+	<script>
+	/* This might return it might not. Not sure yet. */
+	// function formHasChanged(){
+	// 	if($('#room').val()!= "") {
+	// 		$("#joinbtn").text("Room Login");
+	// 	}
+	// 	else if($('#room').val() == "") {
+	// 		$("#joinbtn").text("User Login");
+	// 	}
+	// };
+	// var interval = setInterval(formHasChanged, 10);
+	// function abortTimer() {
+	// 	clearInterval(interval);
+	// } 
+	function toggleTheme() {
+
+		$("body").attr('class', `${$('#theme').val()}`);
+		console.log($("#theme").val())
+	}
+	</script>
+	<body onload="toggleTheme()">
+		<div class="join-container">
+			<header class="join-header">
+				<h1>Conversation Pit</h1>
+			</header>
+			<main class="join-main">
+				<form action="chat.html">
+					<div class="form-control">
+						<label for="room">Room</label>
+						<input type="text" pattern="[A-z]{1,50}" title="A-Z Letters only" name="room" id="room" placeholder="Room Code" required>
+					</div>
+					<div class="form-control">
+						<label for="username">Username</label>
+						<input type="text" name="username" id="username" placeholder="Username" required/>
+					</div>
+					<hr>
+					<br>
+					<label for="theme">Theme</label>
+					<select name="theme" id="theme" onchange="toggleTheme();">
+						<option value="lemon">Lemon Demon</option>
+						<option value="space">Space</option>
+					</select>
+					<button id="joinbtn" type="submit" class="btn">User Login</button>
+				</form>
+			</main>
+		</div>
+	</body>
+</html>
