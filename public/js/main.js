@@ -136,6 +136,7 @@ function outputMessageWithButtons(message,...buttons) {
 
 }
 function outputMessage(message) {
+  message.text = unsanitize(message.text)
   const div = document.createElement('div');
   div.classList.add('message');
   const p = document.createElement('p');
@@ -145,7 +146,7 @@ function outputMessage(message) {
   div.appendChild(p);
   const para = document.createElement('p');
   para.classList.add('text');
-  if(message.text.includes("https://") || message.text.includes("http://") || message.text.includes("www.")){message.text = linky(message.text);para.innerHTML += message.text}
+  if(message.text.includes("https://") || message.text.includes("http://") || message.text.includes("www.")){message.text = linky(message.text);console.log(message.text);para.innerHTML += message.text}
   else{para.innerText = message.text;}
   div.appendChild(para);
   document.querySelector('.chat-messages').appendChild(div);
@@ -186,12 +187,19 @@ document.getElementById('leave-btn').addEventListener('click', () => {
   } else {
   }
 });
+function unsanitize(text){
+  const arr = text.toString().split("​")/// WARNING CONTAINS A ZWSP DONT LET IT ESCAPE
+  return arr.join("")
+}
+function sanitize(text){
+  return Array.from(text).join("​")/// WARNING CONTAINS A ZWSP DONT LET IT ESCAPE
+}
 function linky(text) { // thanks google dev
   return (text || '').replace(/([^\S]|^)(((https?\:\/\/)|(www\.))(\S+))/gi, function (match, space, url) {
     var hyperlink = url;
     if (!hyperlink.match('^https?://')) {
       hyperlink = 'http://' + hyperlink;
     }
-    return space + '<a href="' + hyperlink + '" target="_blank">' + url + '</a>';
+    return sanitize(space) + '<a href="' + hyperlink + '" target="_blank">' + sanitize(url) + '</a>';
   });
 }
