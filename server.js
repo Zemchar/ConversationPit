@@ -4,13 +4,12 @@ const express = require('express');
 const socketio = require('socket.io');
 const formatMessage = require('./utils/messages');
 const {userJoin, getCurrentUser, userLeave, getRoomUsers} = require('./utils/users');
-const moment = require('moment');
 var mysql = require('mysql');
-const { query } = require('express');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-var conn = mysql.createConnection({host:'localhost', user:'usr', password:'psswd', database:'chat'})
+let args = process.argv.slice(2);
+var conn = mysql.createConnection({host: "localhost", user: args[0].toString(), password: args[1].toString(), database: args[2].toString()})
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
