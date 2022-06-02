@@ -93,7 +93,6 @@ io.on('connection', socket => {
   // Listen for chatMessage
   socket.on('chatMessage', msg => {
     const user = getCurrentUser(socket.id);
-    msg = queryPrep(msg)
     io.to(user.room).emit('message', formatMessage(user.username, msg));
     //logging func
     if(noLogRooms.indexOf(user.room) != -1){return}
@@ -101,8 +100,8 @@ io.on('connection', socket => {
       let ts = Date.now()
       let TIMESTAMPOBJ = new Date(ts);
       let timestamp = TIMESTAMPOBJ.getHours() + ":" + TIMESTAMPOBJ.getMinutes() + ":" + TIMESTAMPOBJ.getSeconds() + " On " + TIMESTAMPOBJ.getMonth() + "/" + TIMESTAMPOBJ.getDate() +"/" + TIMESTAMPOBJ.getFullYear()
-      var sql = `INSERT INTO ${user.room} (contents, name, html) VALUES ('${msg}', '${user.username}', '<div class="message"><p class="meta">${user.username}<span> ${timestamp}</span></p><p class="text">${msg}</p></div>');`
-      conn.query(sql, function (err, result) {
+      var sql = `INSERT INTO ${user.room} (contents, name, html) VALUES (?, ?, ?);`
+      conn.query(sql, [msg.toString(), user.username.toString(), `<div class="message"><p class="meta">${user.username.toString()}<span> ${timestamp.toString()}</span></p><p class="text">${msg.toString()}</p></div>`], function (err, result) {
         if (err) throw err;
       });
   }});
@@ -111,9 +110,6 @@ io.on('connection', socket => {
     const user = getCurrentUser(socket.id);
     io.to(user.room).emit('sys', 'watch', formatMessage(null, `<b>${user.username}</b> BEEP BEEP BEEP BEEP`))
   })
-  function queryPrep(input){
-    return Array.from(input).join("​")//// THIS CONTAINS A ZWSP DONT LET IT ESCAPE!!!
-  }
   /**
    * A function that retrieves and sends calls for logged messages to be displayed on the client's browser
    * @param {roomObject} room Room object to pull messages from 
