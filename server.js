@@ -10,7 +10,7 @@ const { query } = require('express');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-var conn = mysql.createConnection({host:'localhost', user:'user', password:'passwd', database:'chat'})
+var conn = mysql.createConnection({host:'localhost', user:'juniper', password:'raspberry', database:'chat'})
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -93,6 +93,7 @@ io.on('connection', socket => {
   // Listen for chatMessage
   socket.on('chatMessage', msg => {
     const user = getCurrentUser(socket.id);
+    msg = queryPrep(msg)
     io.to(user.room).emit('message', formatMessage(user.username, msg));
     //logging func
     if(noLogRooms.indexOf(user.room) != -1){return}
@@ -110,6 +111,9 @@ io.on('connection', socket => {
     const user = getCurrentUser(socket.id);
     io.to(user.room).emit('sys', 'watch', formatMessage(null, `<b>${user.username}</b> BEEP BEEP BEEP BEEP`))
   })
+  function queryPrep(input){
+    return Array.from(input).join("​")//// THIS CONTAINS A ZWSP DONT LET IT ESCAPE!!!
+  }
   /**
    * A function that retrieves and sends calls for logged messages to be displayed on the client's browser
    * @param {roomObject} room Room object to pull messages from 
