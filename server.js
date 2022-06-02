@@ -10,7 +10,7 @@ const { query } = require('express');
 const app = express();
 const server = http.createServer(app);
 const io = socketio(server);
-var conn = mysql.createConnection({host:'localhost', user:'juniper', password:'raspberry', database:'chat'})
+var conn = mysql.createConnection({host:'localhost', user:'user', password:'passwd', database:'chat'})
 // Set static folder
 app.use(express.static(path.join(__dirname, 'public')));
 
